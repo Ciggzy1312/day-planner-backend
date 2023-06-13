@@ -34,3 +34,10 @@ export const createTaskSchema = z.object({
         invalid_type_error: "Is Completed must be a boolean",
     })
 });
+
+export const completeTaskSchema = z.object({
+    isCompleted: z.boolean({
+        required_error: "Is Completed is required",
+        invalid_type_error: "Is Completed must be a boolean",
+    })
+});

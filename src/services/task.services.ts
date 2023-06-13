@@ -27,3 +27,15 @@ export const getTasks = async (userId: string) => {
         return { error: "Failed to fetch tasks" };
     }
 }
+
+export const completeTask = async (id: string, isCompleted: boolean) => {
+    try {
+        const task = await prisma.task.update({ where: { id }, data: { isCompleted } });
+
+        return { task, error: null };
+    } catch (error: any) {
+        logger.error(error.message);
+        await prisma.$disconnect();
+        return { error: "Task updation failed" };
+    }
+};
