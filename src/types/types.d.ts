@@ -23,3 +23,9 @@ export interface TaskInput {
     isCompleted: boolean
     userId: string
 }
+
+export interface LabelInput {
+    name: string
+    color: string
+    userId: string
+}
