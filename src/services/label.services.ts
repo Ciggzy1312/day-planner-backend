@@ -14,3 +14,14 @@ export const createLabel = async (input: LabelInput) => {
         return { error: "Label creation failed" };
     }
 }
+
+export const getLabels = async (userId: string) => {
+    try {
+        const labels = await prisma.label.findMany({ where: { userId } });
+        return { labels, error: null };
+    } catch (error: any) {
+        logger.error(error.message);
+        await prisma.$disconnect();
+        return { error: "Failed to fetch labels" };
+    }
+}
