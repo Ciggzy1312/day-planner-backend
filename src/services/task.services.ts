@@ -39,3 +39,15 @@ export const completeTask = async (id: string, isCompleted: boolean) => {
         return { error: "Task updation failed" };
     }
 };
+
+export const getFocusMode = async (userId: string, date: string) => {
+    try {
+        const tasks = await prisma.task.findMany({ where: { userId, date } });
+
+        return { tasks, error: null };
+    } catch (error: any) {
+        logger.error(error.message);
+        await prisma.$disconnect();
+        return { error: "Failed to fetch tasks" };
+    }
+};

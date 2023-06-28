@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import logger from "../utils/logger";
-import { completeTask, createTask, getTasks } from "../services/task.services";
+import { completeTask, createTask, getTasks, getFocusMode } from "../services/task.services";
 
 const createTaskHandler = async (req: Request, res: Response) => {
     try {
@@ -50,4 +50,20 @@ const completeTaskHandler = async (req: Request, res: Response) => {
     }
 };
 
-export { createTaskHandler, getTasksHandler, completeTaskHandler }
+const getFocusModeHandler = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user.id;
+        const { date } = req.query;
+        const { tasks, error } = await getFocusMode(userId, date as string);
+        if (error) {
+            return res.status(400).json({ message: error });
+        }
+
+        return res.status(201).json({ message: "Tasks fetched successfully", tasks });
+    } catch (error) {
+        logger.error(error);
+        res.status(400).json({ message: "Failed to fetch tasks" });
+    }
+}
+
+export { createTaskHandler, getTasksHandler, completeTaskHandler, getFocusModeHandler }
